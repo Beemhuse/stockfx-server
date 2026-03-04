@@ -30,6 +30,7 @@ export const UserController = {
 
   async getDashboard(req, res) {
     try {
+      const { password_hash, verification_token, ...safeUser } = req.user;
       const account = await dbUserAccount.getByUserId(req.user.id);
       const devices = await dbDevice.list(req.user.id);
       const transactions = await dbTransaction.list(req.user.id);
@@ -42,7 +43,7 @@ export const UserController = {
 
       res.json({
         user: {
-          ...req.user,
+          ...safeUser,
           balance: account?.balance || 0,
           total_investment: account?.total_investment || 0,
           account_type: account?.account_type || "standard",

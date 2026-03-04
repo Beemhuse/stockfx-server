@@ -48,8 +48,9 @@ export const AdminController = {
       const users = await dbUser.list(100, 0);
       const usersWithBalances = await Promise.all(
         users.map(async (u) => {
+          const { password_hash, verification_token, ...safeUser } = u;
           const acc = await dbUserAccount.getByUserId(u.id);
-          return { ...u, balance: acc?.balance || 0 };
+          return { ...safeUser, balance: acc?.balance || 0 };
         }),
       );
       res.json(usersWithBalances);
