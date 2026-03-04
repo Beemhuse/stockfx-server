@@ -1,0 +1,31 @@
+{
+  "name": "stockfx-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^7.4.2",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.0",
+    "pg": "^8.11.0",
+    "resend": "^6.9.3"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.18.0",
+    "nodemon": "^2.0.22",
+    "prisma": "^7.4.2"
+  }
+}
