@@ -19,6 +19,7 @@ BigInt.prototype.toJSON = function () {
 const allowedOrigins = [
   "http://localhost:5173",
   "https://stockfxinvestment-mocha.vercel.app",
+"https://stockfxinvestment.org"
 ];
 const app = express();
 const PORT = process.env.PORT || 3001;
