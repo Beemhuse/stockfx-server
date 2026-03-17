@@ -14,8 +14,8 @@ if (!process.env.DATABASE_URL) {
 }
 
 async function seedAdmin() {
-  const email = process.argv[2] || "admin@example.com";
-  const password = process.argv[3] || "admin123";
+  const email = process.argv[2] || "Officialstockfxinvestment@gmail.com";
+  const password = process.argv[3] || "admin123&&@";
   const name = "System Administrator";
 
   console.log(`[SEED] Attempting to create admin: ${email}`);
