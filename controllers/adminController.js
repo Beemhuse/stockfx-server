@@ -8,9 +8,16 @@ import bcrypt from "bcryptjs";
 
 export const AdminController = {
   async login(req, res) {
-    const { email, password } = req.body;
+    const email =
+      typeof req.body?.email === "string"
+        ? req.body.email.toLowerCase().trim()
+        : "";
+    const password = req.body?.password;
 
-    // Database Check
+    if (!email || typeof password !== "string") {
+      return res.status(400).json({ error: "Email and password required" });
+    }
+
     try {
       const user = await dbUser.findByEmail(email);
       if (user && user.is_admin && user.password_hash) {
@@ -23,7 +30,11 @@ export const AdminController = {
               expiresIn: "7d",
             },
           );
-          res.cookie("admin_token", token, { httpOnly: true, sameSite: "lax" });
+          res.cookie("admin_token", token, {
+            httpOnly: true,
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+          });
           return res.json({
             success: true,
             token,
