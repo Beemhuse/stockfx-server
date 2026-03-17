@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const DEFAULT_ADMIN_EMAIL = "beemhuse@gmail.com";
+const DEFAULT_ADMIN_EMAIL = "officialstockfxinvestment@gmail.com";
 const DEFAULT_ADMIN_PASSWORD = "admin123";
 const DEFAULT_ADMIN_NAME = "System Administrator";
 
