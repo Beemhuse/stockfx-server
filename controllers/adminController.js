@@ -61,7 +61,12 @@ export const AdminController = {
         users.map(async (u) => {
           const { password_hash, verification_token, ...safeUser } = u;
           const acc = await dbUserAccount.getByUserId(u.id);
-          return { ...safeUser, balance: acc?.balance || 0 };
+          return { 
+            ...safeUser, 
+            balance: acc?.balance || 0,
+            totalInvestment: acc?.total_investment || 0,
+            totalProfit: acc?.total_profit || 0,
+          };
         }),
       );
       res.json(usersWithBalances);
@@ -88,16 +93,19 @@ export const AdminController = {
   },
 
   async updateStats(req, res) {
-    const { userId, totalInvestment, accountType } = req.body;
+    const { userId, totalInvestment, totalProfit, monthlyIncome, accountType } = req.body;
     if (!userId) return res.status(400).json({ error: "UserId required" });
 
     try {
       const updated = await dbUserAccount.updateStats(userId, {
         totalInvestment,
+        totalProfit,
+        monthlyIncome,
         accountType,
       });
       res.json({ success: true, account: updated });
     } catch (err) {
+      console.error("Admin updateStats error:", err);
       res.status(500).json({ error: "Failed to update stats" });
     }
   },

@@ -36,23 +36,24 @@ export const UserController = {
       const transactions = await dbTransaction.list(req.user.id);
       const portfolio = await dbPortfolio.getByUserId(req.user.id);
 
-      // Calculate some derived stats
-      const totalProfit = 0; // Placeholder for actual calculation
-      const monthlyIncome = 0; // Placeholder for actual calculation
+      // Use account stats if available
+      const totalProfit = account?.total_profit || 0;
+      const monthlyIncome = account?.monthly_income || 0;
+      const totalInvestment = account?.total_investment || 0;
       const activeTrades = portfolio.length;
 
       res.json({
         user: {
           ...safeUser,
           balance: account?.balance || 0,
-          total_investment: account?.total_investment || 0,
+          totalInvestment,
+          totalProfit,
+          monthlyIncome,
+          activeTrades,
           account_type: account?.account_type || "standard",
           recentTransactions: transactions.slice(0, 5),
           transactions: transactions,
           portfolio: portfolio,
-          totalProfit,
-          monthlyIncome,
-          activeTrades,
         },
         devices,
       });

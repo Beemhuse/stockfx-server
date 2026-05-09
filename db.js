@@ -316,12 +316,28 @@ export const dbPortfolio = {
 
 // Add stats update to dbUserAccount
 dbUserAccount.updateStats = async (userId, stats) => {
-  return prisma.userAccount.update({
+  const data = { updated_at: new Date() };
+
+  if (stats.totalInvestment !== undefined) {
+    data.total_investment = stats.totalInvestment;
+  }
+  if (stats.totalProfit !== undefined) {
+    data.total_profit = stats.totalProfit;
+  }
+  if (stats.monthlyIncome !== undefined) {
+    data.monthly_income = stats.monthlyIncome;
+  }
+  if (stats.accountType !== undefined) {
+    data.account_type = stats.accountType;
+  }
+
+  return prisma.userAccount.upsert({
     where: { user_id: userId },
-    data: {
-      total_investment: stats.totalInvestment,
-      account_type: stats.accountType,
-      updated_at: new Date(),
+    update: data,
+    create: {
+      user_id: userId,
+      balance: 0,
+      ...data,
     },
   });
 };

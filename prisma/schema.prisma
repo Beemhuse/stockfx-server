@@ -94,6 +94,8 @@ model UserAccount {
   user_id          String    @unique @db.Uuid
   balance          Float?    @default(0)
   total_investment Float?    @default(0)
+  total_profit     Float?    @default(0)
+  monthly_income   Float?    @default(0)
   account_number   String?
   account_type     String?   @default("standard")
   kyc_status       String?   @default("pending")
