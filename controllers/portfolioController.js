@@ -1,21 +1,21 @@
 import { dbPortfolio, dbTransaction } from "../db.js";
 
 export const PortfolioController = {
-  async getPortfolio(req, res) {
+  async getPortfolio(req, res, next) {
     try {
-      const portfolio = await dbPortfolio.getByUserId(req.user.id);
-      res.json(portfolio);
+      res.json(await dbPortfolio.getByUserId(req.user.id));
     } catch (err) {
-      res.status(500).json({ error: "Failed to fetch portfolio" });
+      next(err);
     }
   },
 
-  async getTransactions(req, res) {
+  async getTransactions(req, res, next) {
     try {
-      const transactions = await dbTransaction.list(req.user.id);
-      res.json(transactions);
+      res.json(await dbTransaction.list(req.user.id));
     } catch (err) {
-      res.status(500).json({ error: "Failed to fetch transactions" });
+      next(err);
     }
   },
 };
+
+export default PortfolioController;

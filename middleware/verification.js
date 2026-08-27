@@ -1,15 +1,16 @@
+/** Blocks the request until the signed-in user has confirmed their email. */
 export const requireVerification = (req, res, next) => {
-  if (req.user && !req.user.is_verified) {
+  if (req.user && req.user.is_verified !== true) {
     return res.status(403).json({
-      error: "Account not verified",
-      message: "Please verify your account to access this feature.",
+      error: "Please confirm your email address to use this feature.",
+      code: "EMAIL_NOT_VERIFIED",
     });
   }
   next();
 };
 
+/** Non-blocking variant - just annotates the request. */
 export const checkVerification = (req, res, next) => {
-  // Just attaches info, doesn't block
-  req.isVerified = req.user?.is_verified || false;
+  req.isVerified = req.user?.is_verified === true;
   next();
 };
